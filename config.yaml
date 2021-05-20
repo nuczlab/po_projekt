@@ -1,0 +1,21 @@
+---
+ map:
+  x: 100
+  y: 100
+  tribes: 50
+  terrains:
+    - name: 'Plains'
+      color: [255, 255, 0]
+      productionmultiplier: 1.3
+    - name: 'Woods'
+      color: [0, 255, 0]
+      productionmultiplier: 2.2
+    - name: 'River'
+      color: [0, 0, 255]
+      productionmultiplier: 3.0
+ tribes:
+  starttribes:
+    - name: 'Lechici'
+      combatability: 1.5
+      growthrate: 0.5 
+      type: 'Nomad'
