@@ -4,3 +4,4 @@ class Terrain:
         for k, v in dictionary.items():
             setattr(self, k, v)
     
+    

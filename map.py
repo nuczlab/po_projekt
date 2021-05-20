@@ -8,8 +8,12 @@ class Map:
         self.terrains = {}
         self.tribes = []
     def changeOwner(self,x,y,owner):
+        
+        ter = self.terrains[x,y]
+        if hasattr(ter,'owner'):
+            ter.owner.remove_terrain(ter)
         self.terrains[x,y].owner =owner
-    
+        owner.add_terrain(ter)
     def generate(self):
         '''
         Generating map with paramets given in configuration
