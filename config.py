@@ -1,5 +1,8 @@
 import yaml
 class Configuration(dict):
+    """
+    Klasa przygotowana pod możliwość rozszerzenia do innego formatu np Json
+    """
     def load_from_file(self,file: "path to configuration yaml"):
         try:
             with open(file,'rb') as f:
@@ -10,6 +13,7 @@ class Configuration(dict):
                     print(exc)
         except:
             print("Caugth exception while reading configurtion file!")
+    
     def __getitem__(self, key):
         return self._dict.__getitem__(key)
 

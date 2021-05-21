@@ -7,13 +7,14 @@ class Map:
         self.name = name
         self.terrains = {}
         self.tribes = []
-    def check_terrain_ocupied(self,x,y) -> bool:
+
+    def is_terrain_ocupied(self,x,y) -> bool:
         if self.terrains[x,y].owner != None:
             return True
         else:
             return False
+
     def change_owner(self,x,y,owner):
-        
         ter = self.terrains[x,y]
         if hasattr(ter,'owner'):
             if ter.owner != None:
@@ -21,11 +22,11 @@ class Map:
         self.terrains[x,y].owner =owner
         if owner != None:
             owner.add_terrain(ter)
+            
     def generate(self):
         '''
         Generating map with paramets given in configuration
         '''
-        
         self.x = self.config["map"]["x"]
         self.y = self.config["map"]["y"]
         print("Generating map[{0},{1}]".format(self.x,self.y))

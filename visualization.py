@@ -6,7 +6,7 @@ class Visualisation:
         pass
     def attach(self,simulator:"Simulator object"):
         self.simulator = simulator
-    def createpreview(self):
+    def create_preview(self):
         map = self.simulator.map
         img2 = numpy.zeros((map.x,map.y,3),numpy.uint8)
         for ix in range(map.x):
