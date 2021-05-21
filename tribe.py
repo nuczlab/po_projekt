@@ -1,11 +1,7 @@
-
 from abc import abstractmethod
-
 import random
 class Tribe:
-    def __init__(self,
-    map: 'Map class', 
-    dictionary): 
+    def __init__(self, map, dictionary): 
         for k, v in dictionary.items():
             setattr(self, k, v)
         self.terrains = []
@@ -13,14 +9,14 @@ class Tribe:
     @abstractmethod
     def turn(self):
         pass
-
-    def remove_terrain(self,terrain):
+    def remove_terrain(self, terrain):
         self.terrains.remove(terrain)
-    def add_terrain(self,terrain):
+    def add_terrain(self, terrain):
         self.terrains.append(terrain)
 class NomadTribe(Tribe):
     def turn(self):
-        if len(self.terrains) > 0: # Sprawdzy czy posiada jakiekolwiek terytorium
+        if len(self.terrains) > 0: 
+            # Sprawdzy czy posiada jakiekolwiek terytorium
             dir = random.randint(0,3)
             dx = 0
             dy = 0
@@ -36,7 +32,7 @@ class NomadTribe(Tribe):
                 dx = -1
             if x + dx >0 and x + dx < self.map.x:
                 if y + dy >0 and y + dy < self.map.x:
-                    if self.map.check_terrain_ocupied(self.terrains[0].x + dx,self.terrains[0].y +dy):
+                    if self.map.check_terrain_ocupied(x + dx,y +dy):
                         pass
                     else:
                         self.map.change_owner(x + dx,y + dy,self)
