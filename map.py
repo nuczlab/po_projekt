@@ -2,18 +2,25 @@ import random
 from terrain import Terrain
 from tribe import Tribe,NomadTribe
 class Map:
-    def __init__(self,name:'Just name of the map',config:'Configuration class'):
+    def __init__(self, name:'Just name of the map', config:'Configuration class'):
         self.config = config
         self.name = name
         self.terrains = {}
         self.tribes = []
-    def changeOwner(self,x,y,owner):
+    def check_terrain_ocupied(self,x,y) -> bool:
+        if self.terrains[x,y].owner != None:
+            return True
+        else:
+            return False
+    def change_owner(self,x,y,owner):
         
         ter = self.terrains[x,y]
         if hasattr(ter,'owner'):
-            ter.owner.remove_terrain(ter)
+            if ter.owner != None:
+                ter.owner.remove_terrain(ter)
         self.terrains[x,y].owner =owner
-        owner.add_terrain(ter)
+        if owner != None:
+            owner.add_terrain(ter)
     def generate(self):
         '''
         Generating map with paramets given in configuration
@@ -45,7 +52,7 @@ class Map:
                  tx = random.randrange(0,self.x)
                  ty = random.randrange(0,self.y)
                  tribe.color = (random.randint(150,255),0,0)
-                 self.changeOwner(tx,ty,tribe)
+                 self.change_owner(tx,ty,tribe)
                  self.tribes.append(tribe)
 
        

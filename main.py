@@ -10,6 +10,12 @@ if __name__ == "__main__":
     sim = Simulator(config)
     sim.generate()
     vis = Visualisation(sim)
-    vis.createpreview()
+    try:
+        while True:
+            vis.createpreview()
+            sim.performTurn()
+    except KeyboardInterrupt:
+        pass
+        
     
     

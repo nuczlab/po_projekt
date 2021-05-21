@@ -11,7 +11,7 @@ class Visualisation:
         img2 = numpy.zeros((map.x,map.y,3),numpy.uint8)
         for ix in range(map.x):
             for iy in range(map.y):
-                if hasattr(map.terrains[ix,iy],'owner'):
+                if map.terrains[ix,iy].owner != None:
                     img2[ix,iy] = map.terrains[ix,iy].owner.color
                 else:
                     img2[ix,iy] = map.terrains[ix,iy].color
