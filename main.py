@@ -12,10 +12,9 @@ if __name__ == "__main__":
     sim.generate()
     vis = Visualisation(sim)
     try:
-        while True:
+        for i in range(15):
             vis.create_preview()
             sim.perform_turn()
-            time.sleep(0.5)
     except KeyboardInterrupt:
         pass
         
