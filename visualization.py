@@ -9,6 +9,7 @@ class Visualisation:
 
     def attach(self, simulator):
         self.simulator = simulator
+
     def create_image(self):
         """
         Function used to generate image of current simulaiton status (with tribes and free terrains)
@@ -23,6 +24,7 @@ class Visualisation:
                     img2[ix, iy] = map.terrains[ix, iy].color
         im_rgb = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
         return im_rgb
+
     def create_preview(self):
         im_rgb = self.create_image()
         cv2.namedWindow("image", cv2.WINDOW_NORMAL)

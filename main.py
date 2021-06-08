@@ -7,18 +7,23 @@ import numpy as np
 import glob
 import cv2
 
-def create_video(simulator,vis,turns=200):
+
+def create_video(simulator, vis, turns=200):
     vis = Visualisation(sim)
     try:
-        out = cv2.VideoWriter('preview.mp4',cv2.VideoWriter_fourcc(*'MJPG'), 15, (200,200))
+        file_path = "preview.mp4"
+        out = cv2.VideoWriter(
+            "preview.mp4", cv2.VideoWriter_fourcc(*"MJPG"), 15, (200, 200)
+        )
         for turn in range(turns):
             out.write(vis.create_image())
             sim.perform_turn(1)
         out.release()
-        
+        print("File saved to {0}".format(file_path))
     except KeyboardInterrupt:
         pass
-    
+
+
 if __name__ == "__main__":
     print("Tribe simulator v2")
     print("Loading configuration")
@@ -28,9 +33,9 @@ if __name__ == "__main__":
     sim.generate()
     vis = Visualisation(sim)
     print("[Map] Generated")
-    print('Select option')
-    print('[1]- Simulate turn by turn')
-    print('[2]- Generate video file')
+    print("Select option")
+    print("[1]- Simulate turn by turn")
+    print("[2]- Generate video file")
     input = int(input())
     if input == 1:
         try:
@@ -40,8 +45,7 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             pass
     elif input == 2:
-        create_video(sim,vis)
+        create_video(sim, vis)
     else:
-        print('Unkown command')
+        print("Unkown command")
     exit()
-    

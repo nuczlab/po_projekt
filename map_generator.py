@@ -43,7 +43,7 @@ class MapGenerator:
         map.x = map.config["map"]["x"]
         map.y = map.config["map"]["y"]
         print("Generating map[{0},{1}]".format(map.x, map.y))
-       
+
         avterrains = map.config["map"]["terrains"]
         if len(avterrains) == 0:
             raise "No terrains given in config!"
@@ -54,7 +54,6 @@ class MapGenerator:
                 noises[index] = PerlinNoise(
                     octaves=ter["perlin_octave"], seed=perlin_seed
                 )
-
 
         for ix in range(map.x):
             for iy in range(map.y):

@@ -8,7 +8,7 @@ class Tribe:
     def __init__(self, map: Map, dictionary):
         for k, v in dictionary.items():
             setattr(self, k, v)
-        
+
         self.map = map
         self.terrains = []
         self.development_points = 0
@@ -50,34 +50,35 @@ class Tribe:
         if self.soldiers <= 0:
             self.soldiers = 1
 
-    def extend_directions(self,terrain):
+    def extend_directions(self, terrain):
         """
         Function used to append possible directions of expansion .
         """
-        #Add direction to extend of province
+        # Add direction to extend of province
 
         self.possible_directions.extend(
-                [
-                    ter
-                    for ter in self.map.get_surrounding_terrains(terrain)
-                    if ter.owner != self and ter.crossable
-                ]
-            )
+            [
+                ter
+                for ter in self.map.get_surrounding_terrains(terrain)
+                if ter.owner != self and ter.crossable
+            ]
+        )
+
     def remove_terrain(self, terrain):
         """
         Remove terrain from tribe terrains and decrease development ponits growth.
         WARNING: This functions doesn't change owner of terrain!
-        
+
         """
         self.terrains.remove(terrain)
         self.development_points_growth = (
             self.development_points_growth - terrain.production_multiplier
         )
         dir = [
-                    ter
-                    for ter in self.map.get_surrounding_terrains(terrain)
-                    if ter.owner != self and ter.crossable
-                ]
+            ter
+            for ter in self.map.get_surrounding_terrains(terrain)
+            if ter.owner != self and ter.crossable
+        ]
         if terrain in self.possible_directions:
             self.possible_directions.remove(terrain)
         for d in dir:
@@ -105,7 +106,6 @@ class Tribe:
 
 
 class SedentaryTribe(Tribe):
-    
     def init(self):
         self.color = (
             random.randint(0, 255),
@@ -117,7 +117,7 @@ class SedentaryTribe(Tribe):
 
     def turn(self):
         if len(self.terrains) > 0:
-            #Check if tribe can
+            # Check if tribe can
             if len(self.possible_directions) > 0:
                 while self.development_points > self.points_to_expand:
                     self.development_points = (
@@ -130,14 +130,14 @@ class SedentaryTribe(Tribe):
                     if len(self.possible_directions) > dir:
                         ter = self.possible_directions[dir]
                         if ter.owner == None:
-                            
+
                             self.map.change_owner(ter.x, ter.y, self)
 
                         else:
                             if self.soldiers > self.soldiers_used_to_fight:
                                 # self.kill_soldiers(30)
                                 if self.perform_combat(ter.owner):
-                                    
+
                                     self.map.change_owner(ter.x, ter.y, self)
 
             self.append_production()
@@ -170,7 +170,7 @@ class NomadTribe(Tribe):
                         val, ter = self.map.get_terrain(x + dx, y + dy)
                         if val:
                             if ter.crossable:
-                                
+
                                 self.map.change_owner(x + dx, y + dy, self)
                                 self.map.change_owner(x, y, None)
             # Generowanie punktów rozwoju
