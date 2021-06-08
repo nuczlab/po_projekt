@@ -1,14 +1,15 @@
 ---
  simulation:
-  seed: 102
+  seed: 101 # Random seed
  map:
-  x: 100
-  y: 100
-  tribes: 50
+  x: 200 # Size of map
+  y: 200
+  tribes: 50 # Number of start tribes
   terrains:
+    #All terains used to generate map in order.
     - name: 'Plains'
       color: [255, 255, 0]
-      production_multiplier: 1.3
+      production_multiplier: 1.3 
     - name: 'Woods'
       color: [0, 255, 0]
       production_multiplier: 1.8
@@ -22,7 +23,7 @@
     - name: 'River'
       color: [0, 0, 255]
       crossable: False
-      perlin_octave: 10
+      perlin_octave: 10 
       perlin_threshold: 0.05
  tribes:
   start_tribes:

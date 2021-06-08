@@ -10,6 +10,9 @@ class Visualisation:
     def attach(self, simulator):
         self.simulator = simulator
     def create_image(self):
+        """
+        Function used to generate image of current simulaiton status (with tribes and free terrains)
+        """
         map = self.simulator.map
         img2 = numpy.zeros((map.x, map.y, 3), numpy.uint8)
         for ix in range(map.x):

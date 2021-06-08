@@ -6,7 +6,7 @@ class Configuration(dict):
     Klasa przygotowana pod możliwość rozszerzenia do innego formatu np Json
     """
 
-    def load_from_file(self, file: "path to configuration yaml"):
+    def load_from_file(self, file: str):
         try:
             with open(file, "rb") as f:
                 try:

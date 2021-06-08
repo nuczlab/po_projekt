@@ -9,6 +9,9 @@ from perlin_noise import PerlinNoise
 class MapGenerator:
     @staticmethod
     def generate_tribes(map):
+        """
+        Generates tribes according to configuration given in map
+        """
         tribes = map.config["map"]["tribes"]
         print("Generating {} starting tribes".format(tribes))
         avtribes = map.config["tribes"]["start_tribes"]
@@ -35,7 +38,7 @@ class MapGenerator:
     @staticmethod
     def generate_terrain(map):
         """
-        Generating map with paramets given in configuration
+        Generating terrein with paramets given in configuration
         """
         map.x = map.config["map"]["x"]
         map.y = map.config["map"]["y"]

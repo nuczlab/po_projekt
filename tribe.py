@@ -8,7 +8,7 @@ class Tribe:
     def __init__(self, map: Map, dictionary):
         for k, v in dictionary.items():
             setattr(self, k, v)
-
+        
         self.map = map
         self.terrains = []
         self.development_points = 0
@@ -19,6 +19,7 @@ class Tribe:
         self.development_points_growth = 0
         self.possible_directions = []
         self.id = 0
+        self.soldiers_used_to_fight = 30
 
     @abstractmethod
     def turn(self):
@@ -28,21 +29,33 @@ class Tribe:
         pass
 
     def perform_combat(self, enemy) -> bool:
+        """
+        Function used to perform combat between two tribes.
+        """
         point_ratio = self.soldiers / enemy.soldiers
         win_threadshold = 50 / point_ratio + 5
         rand = random.randint(0, 100)
-        self.kill_soldiers(30 * ((100 - rand) / 100))
-        enemy.kill_soldiers(30 * ((rand) / 100))
+        self.kill_soldiers(self.soldiers_used_to_fight * ((100 - rand) / 100))
+        enemy.kill_soldiers(self.soldiers_used_to_fight * ((rand) / 100))
         if rand > win_threadshold:
             return True
         return False
 
     def kill_soldiers(self, n):
+        """
+        Function used to decrese number of soldier avaible to tribe.
+        """
+        # Tribe always have 1 soldier
         self.soldiers = self.soldiers - n
         if self.soldiers <= 0:
             self.soldiers = 1
 
     def extend_directions(self,terrain):
+        """
+        Function used to append possible directions of expansion .
+        """
+        #Add direction to extend of province
+
         self.possible_directions.extend(
                 [
                     ter
@@ -51,6 +64,11 @@ class Tribe:
                 ]
             )
     def remove_terrain(self, terrain):
+        """
+        Remove terrain from tribe terrains and decrease development ponits growth.
+        WARNING: This functions doesn't change owner of terrain!
+        
+        """
         self.terrains.remove(terrain)
         self.development_points_growth = (
             self.development_points_growth - terrain.production_multiplier
@@ -67,6 +85,10 @@ class Tribe:
                 self.possible_directions.remove(d)
 
     def add_terrain(self, terrain):
+        """
+        Function used to add terain to tribe
+        WARNING: This functions doesn't change the owner of terrain
+        """
         self.terrains.append(terrain)
         self.development_points_growth = (
             self.development_points_growth + terrain.production_multiplier
@@ -95,7 +117,7 @@ class SedentaryTribe(Tribe):
 
     def turn(self):
         if len(self.terrains) > 0:
-            #Create possible direction to expand
+            #Check if tribe can
             if len(self.possible_directions) > 0:
                 while self.development_points > self.points_to_expand:
                     self.development_points = (
@@ -112,7 +134,7 @@ class SedentaryTribe(Tribe):
                             self.map.change_owner(ter.x, ter.y, self)
 
                         else:
-                            if self.soldiers > 30:
+                            if self.soldiers > self.soldiers_used_to_fight:
                                 # self.kill_soldiers(30)
                                 if self.perform_combat(ter.owner):
                                     
