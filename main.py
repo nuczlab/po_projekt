@@ -8,15 +8,16 @@ import glob
 import cv2
 
 
-def create_video(simulator, vis, turns=200):
+def create_video(simulator, vis,x,y,turns=4800):
     vis = Visualisation(sim)
     try:
         file_path = "preview.mp4"
         out = cv2.VideoWriter(
-            "preview.mp4", cv2.VideoWriter_fourcc(*"MJPG"), 15, (200, 200)
+            "preview.mp4", cv2.VideoWriter_fourcc(*"MJPG"), 30, (600, 600)
         )
         for turn in range(turns):
-            out.write(vis.create_image())
+            resized = cv2.resize(vis.create_image(), (600,600), interpolation = cv2.INTER_AREA)
+            out.write(resized)
             sim.perform_turn(1)
         out.release()
         print("File saved to {0}".format(file_path))
@@ -45,7 +46,7 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             pass
     elif input == 2:
-        create_video(sim, vis)
+        create_video(sim, vis,config["map"]["x"],config["map"]["y"])
     else:
         print("Unkown command")
     exit()

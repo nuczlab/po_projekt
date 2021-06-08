@@ -1,6 +1,6 @@
 import random
 from terrain import Terrain
-
+import math
 
 class Map:
     def __init__(self, name, config):
@@ -26,7 +26,8 @@ class Map:
             if resp:
                 list.append(ter)
         return list
-
+    def get_distance(self,terrain_a,terrain_b) -> float:
+        return math.sqrt(math.pow((terrain_a.x-terrain_b.x),2)+math.pow((terrain_b.y-terrain_a.y),2))
     def is_terrain_ocupied(self, x, y) -> bool:
         if self.terrains[x, y].owner != None:
             return True

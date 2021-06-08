@@ -15,11 +15,11 @@ class Tribe:
         self.combat_ability = 1.0
         self.soldiers = 1
         self.growth_rate = 1
-        self.points_to_expand = 20
+        self.points_to_expand = 10
         self.development_points_growth = 0
         self.possible_directions = []
         self.id = 0
-        self.soldiers_used_to_fight = 30
+        self.soldiers_used_to_fight = 15
 
     @abstractmethod
     def turn(self):
@@ -112,33 +112,39 @@ class SedentaryTribe(Tribe):
             random.randint(0, 255),
             random.randint(0, 255),
         )
+        self.capital = self.terrains[0]
         for terrain in self.terrains:
             self.extend_directions(terrain)
 
     def turn(self):
         if len(self.terrains) > 0:
+            # update
+            pos_dir = {}
+            for t in self.possible_directions:
+
+                pos_dir[t]= t.production_multiplier
+                if t.owner != None:
+                    pos_dir[t] = pos_dir[t]*(t.owner.soldiers/self.soldiers)- self.map.get_distance(self.capital,t)
+            directions = dict(sorted(pos_dir.items(), key=lambda item: item[1],reverse=True))
+            
             # Check if tribe can
-            if len(self.possible_directions) > 0:
+            if len(directions) > 0:
                 while self.development_points > self.points_to_expand:
                     self.development_points = (
                         self.development_points - self.points_to_expand
                     )
-                    if len(self.possible_directions) <= 1:
-                        dir = 0
+                   
+                    ter = list(directions.keys())[0]
+                    if ter.owner == None:
+
+                        self.map.change_owner(ter.x, ter.y, self)
+
                     else:
-                        dir = random.randint(0, len(self.possible_directions) - 1)
-                    if len(self.possible_directions) > dir:
-                        ter = self.possible_directions[dir]
-                        if ter.owner == None:
+                        if self.soldiers > self.soldiers_used_to_fight:
+                            # self.kill_soldiers(30)
+                            if self.perform_combat(ter.owner):
 
-                            self.map.change_owner(ter.x, ter.y, self)
-
-                        else:
-                            if self.soldiers > self.soldiers_used_to_fight:
-                                # self.kill_soldiers(30)
-                                if self.perform_combat(ter.owner):
-
-                                    self.map.change_owner(ter.x, ter.y, self)
+                                self.map.change_owner(ter.x, ter.y, self)
 
             self.append_production()
 
@@ -177,7 +183,7 @@ class NomadTribe(Tribe):
             self.append_production()
             # Sprawdzanie czy plemie moze ewoluowac
             if self.development_points > self.points_to_evolve:
-                print("[{0}] Tribe upgraded to next level".format(self.id))
+                #print("[{0}] Tribe upgraded to next level".format(self.id))
                 self.__class__ = SedentaryTribe
                 self.init()
                 pass

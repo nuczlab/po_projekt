@@ -59,9 +59,10 @@ class MapGenerator:
             for iy in range(map.y):
                 rnd = random.randrange(0, len(avterrains))
                 rnd = 0
-                for i, v in noises.items():
+                for i, v in reversed(noises.items()):
                     if v([ix / map.x, iy / map.y]) > avterrains[i]["perlin_threshold"]:
                         rnd = i
+                        break
                 tera = Terrain(avterrains[rnd])
                 tera.x = ix
                 tera.y = iy

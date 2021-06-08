@@ -21,7 +21,8 @@ class Simulator:
 
     def perform_turn(self, turns=1):
         for turn in range(turns):
-            print("[{0}]".format(self.turn))
+            if self.turn %5 ==0:
+                print("[{0}]".format(self.turn))
             ls = []
             for t in range(len(self.tribes)):
                 ls.append(t)
