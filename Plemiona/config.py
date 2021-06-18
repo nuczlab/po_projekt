@@ -3,10 +3,17 @@ import yaml
 
 class Configuration(dict):
     """
-    Klasa przygotowana pod możliwość rozszerzenia do innego formatu np Json
+    Class used to provide confiugration all across app
     """
 
     def load_from_file(self, file: str):
+        """
+        Method used to load configuration from yaml file
+        Parameters
+        ----------
+        file : str
+            Path to file containing yaml configuration
+        """
         try:
             with open(file, "rb") as f:
                 try:
